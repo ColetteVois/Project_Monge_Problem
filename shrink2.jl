@@ -5,22 +5,19 @@
 #
 # C. Voisembert
 # -----------------------------------------------------------
-# Fonction utile pour transformer une matrice en vecteur en
-# concaténant ses lignes les unes à la suite des autres.
+# Function which define the shink2 operation, used for the norm L2.
 # Input(s):
-# - y [matrix in R^d] : matrice à transformer
-# - alpha [nimber in R] :
+# - y [2-element Array{Float64,1}]
+# - alpha [Float64]
+# Output :
+# - res [Float64]
 # -----------------------------------------------------------
-
-
 
 function shrink2(y, alpha)
 	epsi = 10.0^-5
-	if (norm(y)==0)
-		#print("if")
+	if (norm(y)==0)	#if the norm is 0 you can not divide by this norm
 		res  = y*max(norm(y)-alpha,0)/(norm(y)+epsi)
 	else
-		#print("else")
 		res  = y*max(norm(y)-alpha,0)/(norm(y))
 	end
 	return res

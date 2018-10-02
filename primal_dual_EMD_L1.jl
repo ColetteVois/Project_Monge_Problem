@@ -37,7 +37,7 @@ function primal_dual_EMD_L1(p_0, p_1, m_0, eps, mu, tau, theta, delta_x)
 		phi_k = phi_kplus1
 
 		for i in 1:N
-				print(i)
+				#print(i)
 				# first row of the pseudo code
 				resu = [0.0,0.0]
 				resu[1] = - phi_k[i]
@@ -48,7 +48,7 @@ function primal_dual_EMD_L1(p_0, p_1, m_0, eps, mu, tau, theta, delta_x)
 				if (i>N)
 					resu[2] = resu[2] + phi_k[i+N]
 				end
-				print(m_k[i] + mu*resu)
+				#print(m_k[i] + mu*resu)
 				for j in 1:2
 					m_kplus1[i][j] = shrink1(m_k[i][j]*1.0 + 1.0*mu*resu[j], 1.0*mu)*1.0/(1.0+eps*tau)
 				end
@@ -61,7 +61,7 @@ function primal_dual_EMD_L1(p_0, p_1, m_0, eps, mu, tau, theta, delta_x)
 				if (i>N)
 					resu2 = resu2 - (1+tau)*m_kplus1[i-N][2] + tau*m_k[i-N][2]
 				end
-				resu2 = resu2*delta_x
+				resu2 = resu2/delta_x
 				phi_kplus1[i] = phi_k[i] + tau*(resu2 + p_1[i] - p_0[i])
 
 		end
@@ -71,6 +71,6 @@ function primal_dual_EMD_L1(p_0, p_1, m_0, eps, mu, tau, theta, delta_x)
 	for i in 1:length(m_kplus1)
 		norm_M = norm_M + norm(m_kplus1[i])
 	end
-
+		norm_M = norm_M*delta_x*delta_x
 	return(norm_M)
 end

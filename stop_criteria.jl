@@ -5,11 +5,11 @@
 #
 # C. Voisembert
 # -----------------------------------------------------------
-# Fonction utile pour transformer une matrice en vecteur en
-# concaténant ses lignes les unes à la suite des autres.
+# Function giving a number which will be used as a stop criteria, this number should be decrising.
 # Input(s):
-# - y [matrix in R^d] : matrice à transformer
-# - alpha [nimber in R] :
+# - m_k [NxN Array{Array{Float64,1},2}]
+# - delta_x [Float64] : accuratie of the mesh
+# - p_0, p_1 [Array{Float64,2}] : grid representing the density of two propbabilities
 # -----------------------------------------------------------
 
 function stop_criteria(m_k,delta_x,p_0,p_1)
@@ -19,26 +19,20 @@ function stop_criteria(m_k,delta_x,p_0,p_1)
 	res_tot = 0
 
 	for i in 1:N
- 		resu = m_k[i]
-		if (i>1)
-			resu = resu - m_k[i-1]
-		end
-		if (i<N*(N-1))
-			 resu = resu + m_k[i+N]
-		end
-		if (i>N+1)
-			resu = resu - m_k[i-N]
-		end
-		resu = abs(1/delta_x*(resu + p_1[i] - p_0[i]))
 
-		res = 0
-		for j in 1:d
-			res = res + resu[j]
+ 		resu = m_k[i][1] + m_k[i][2]
+		if (i>1)	#left
+			resu = resu - m_k[i-1][1]
 		end
-		res_tot = res_tot + res
+		if (i>N)	#behind
+			 resu = resu - m_k[i-N][2]
+		end
+
+		resu = abs(1/delta_x*resu + p_1[i] - p_0[i])
+
+		res_tot = res_tot + resu
 	end
 	res_tot = res_tot/N
 	return res_tot
-
 
 end

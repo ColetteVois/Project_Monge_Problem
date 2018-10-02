@@ -5,11 +5,12 @@
 #
 # C. Voisembert
 # -----------------------------------------------------------
-# Fonction utile pour transformer une matrice en vecteur en
-# concaténant ses lignes les unes à la suite des autres.
+# Function which define the shink1 operation, used for the norm L1.
 # Input(s):
-# - y [matrix in R^d] : matrice à transformer
-# - alpha [nimber in R] :
+# - y [1-element Array{Float64,1}]
+# - alpha [Float64]
+# Output :
+# - res [Float64]
 # -----------------------------------------------------------
 
 
