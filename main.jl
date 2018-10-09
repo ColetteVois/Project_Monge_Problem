@@ -71,11 +71,11 @@ function main(N,tol, moving_direction,eloigne)
 						i_mesh = center_p0_fem[1] + k*i
 						j_mesh = center_p0_fem[2] + l*j
 						x_0 = mesh_to_real([i_mesh,j_mesh],N,delta_x)
-						p_0[i_mesh, j_mesh] = deltaa(x_0, center_p0, l1)
+						p_0[round(Int,i_mesh), round(Int,j_mesh)] = deltaa(x_0, center_p0, l1)
 
 						i_mesh = center_p1_fem[1] + k*i
 						j_mesh = center_p1_fem[2] + l*j
-						p_1[i_mesh, j_mesh] = deltaa(mesh_to_real([i_mesh,j_mesh],N,delta_x), center_p1, l1)
+						p_1[round(Int,i_mesh), round(int,j_mesh)] = deltaa(mesh_to_real([i_mesh,j_mesh],N,delta_x), center_p1, l1)
 					end
 				end
 			end
