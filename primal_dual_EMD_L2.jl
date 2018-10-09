@@ -11,29 +11,31 @@
 # - mu, tau, theta, delta_x [Float64]
 # -----------------------------------------------------------
 
-include("/home/colette/Bureau/Monge_Problem/stop_criteria.jl")
-include("/home/colette/Bureau/Monge_Problem/shrink2.jl")
+include("/home/colette/Project_Monge_Problem/stop_criteria.jl")
+include("/home/colette/Project_Monge_Problem/shrink2.jl")
 
 
-function primal_dual_EMD_L2(p_0, p_1, m_0, mu, tau, theta, delta_x)
+function primal_dual_EMD_L2(p_0, p_1, m_0, mu, tau, theta, delta_x,tol)
 
-	epsi = 10.0^-5 	#iterate until convergence
 	N = length(m_0)
-	d = 2						#dimention 2
+	m_0 = Array{Array{Float64,1}}(1, N, N)
+	for I in eachindex(m_0)
+		m_0[I]= zeros(2)
+	end
 
 	#initialisation
 	k = 0						#time
-	m_0 = [[0.0,0.0] for i in 1:N, j in 1:N]
 	phi_0 = zeros(N,N)
 	m_k = m_0
 	m_kplus1 = m_0
 	phi_k = phi_0
 	phi_kplus1 = phi_0
 	debug = [[0.0,0.0,0.0] for i in 1:100]	#k,norm,stop
-	norm_M = 0
+	norm_M = 0.0
 
 	stop = stop_criteria(m_k,delta_x,p_0,p_1)
-	while (stop > epsi) #(k<10001) #
+
+	while (stop > tol) #(k<10001) #
 		k = k + 1
 		m_k = m_kplus1
 		phi_k = phi_kplus1
@@ -75,9 +77,5 @@ function primal_dual_EMD_L2(p_0, p_1, m_0, mu, tau, theta, delta_x)
 		end
 	end
 
-	print(debug)
-	print("\n")
-	print(k)
-	print("\n")
 	return(norm_M)
 end
